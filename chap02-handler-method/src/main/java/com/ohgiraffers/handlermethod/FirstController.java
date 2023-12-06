@@ -174,6 +174,7 @@ public class FirstController {
     * @RequestHeader 어노테이션을 이용하여 가져올 수 있다.
     * @CookieValue 를 이용해여 쿠키 정보도 쉽게 불러올 수 있다.
     * */
+
     @PostMapping("body")
     public void bodyTest(@RequestBody String body, @RequestHeader("content-type") String contentType, // 꺼내고자 하는 header의 key를 넣는다,.
                          @CookieValue(value = "JSESSIONID", required = false)String sessionId) throws UnsupportedEncodingException {
