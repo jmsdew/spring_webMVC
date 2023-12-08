@@ -1,6 +1,7 @@
 package com.ohgiraffers.pos.menu.controller;
 
 import com.ohgiraffers.pos.menu.dto.MenuDTO;
+import com.ohgiraffers.pos.menu.exception.NotInsertNameException;
 import com.ohgiraffers.pos.menu.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 @RequestMapping("/menus/*")
@@ -22,24 +22,47 @@ public class MenuController {
     public ModelAndView selectAllMenu(ModelAndView mv){
         List<MenuDTO> menus = menuService.selectAllMenu();          // 쿼리에서는 문제 없으나 그 이후 에러
         // service 에서 담아온 쿼리문 값을 menus 에 넣어줌  진행순서 4번
-        if (Objects.isNull(menus)){
+/*        if (Objects.isNull(menus)){
             System.out.println("exception 대체");
-        }
+        }*/
         mv.addObject("menus",menus);   // view로 보낼 내용 설정
         mv.setViewName("menus/allMenus");          // view 경로 설정
 
         return mv;  // 보냄
     }
 
-    @GetMapping("regist")
+
+    @PostMapping("login")
+    public String login(){
+        return "menucontrol";
+    }
+
+    @GetMapping("onemenu")
+    public ModelAndView OneMenu(ModelAndView mv){
+        mv.setViewName("menus/onemenu");
+        return mv;
+    }
+    @GetMapping("onemenuaction")
+    public ModelAndView selectOneMenu(ModelAndView mv, MenuDTO menuDTO){
+        MenuDTO menus = menuService.selectOneMenu(menuDTO);
+        mv.addObject("menus",menus);
+        mv.setViewName("menus/allMenus");
+        return mv;
+    }
+
+
+
+    @GetMapping("regist")               /// get 매핑이 전달된 location.href 값을 html 문으로 보내주는 역할을 하는듯
     public void insert(){}
     @PostMapping("regist")  /*regist 진행순서 2번 */
-    public ModelAndView insertMenu(ModelAndView mv,MenuDTO menuDTO){
+    public ModelAndView insertMenu(ModelAndView mv,MenuDTO menuDTO) throws NotInsertNameException {
         int regist = menuService.regist(menuDTO);  // service로 보내 결과값 받아옴
-        if (regist >= 0){  
+        if (regist <=0){
+            mv.addObject("message", "가격은 음수일 수 없습니다.");
+            mv.setViewName("/error/errorMessage");
+        }else {
             mv.setViewName("/menus/returnMessage");  // view 경로 설정
         }
-
         return mv;
     }
 
@@ -49,7 +72,10 @@ public class MenuController {
     @PostMapping("update")
     public ModelAndView updateMenu(ModelAndView mv, MenuDTO menuDTO){
         int update = menuService.update(menuDTO);
-        if (update >= 0){
+        if(update == 0){
+            mv.addObject("message", "업데이트 실패");
+            mv.setViewName("/error/errorMessage");
+        }else {
             mv.setViewName("/menus/returnMessage");
         }
 
@@ -62,9 +88,12 @@ public class MenuController {
     @PostMapping("delete")
     public ModelAndView deleteMenu(ModelAndView mv, MenuDTO menuDTO){
         int delete = menuService.delete(menuDTO);
-        if (delete >= 0){
-            mv.setViewName("/menus/returnMessage");
-        }
+        if(delete == 0) {
+            mv.addObject("message", "삭제 실패");
+            mv.setViewName("/error/errorMessage");
+
+        }else{ mv.setViewName("/menus/returnMessage"); }
+
 
         return mv;
     }

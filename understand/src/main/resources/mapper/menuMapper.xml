@@ -2,7 +2,6 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="com.ohgiraffers.pos.menu.model.MenuDAO">
 
     <resultMap id="menuResult" type="com.ohgiraffers.pos.menu.dto.MenuDTO">
@@ -18,6 +17,19 @@
             *
           FROM TBL_MENU
          WHERE ORDERABLE_STATUS='Y'
+    </select>
+
+    <select id="selectAllName" resultMap="menuResult">
+        SELECT
+            MENU_NAME
+          FROM TBL_MENU
+    </select>
+
+    <select id="selectOneMenu" resultMap="menuResult">
+        SELECT
+            *
+          FROM TBL_MENU
+         WHERE MENU_CODE = #{code}
     </select>
 
     <insert id="regist" parameterType="com.ohgiraffers.pos.menu.dto.MenuDTO">

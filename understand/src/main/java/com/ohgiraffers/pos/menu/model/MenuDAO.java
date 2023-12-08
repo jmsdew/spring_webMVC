@@ -8,6 +8,7 @@ import java.util.List;
 @Mapper
 public interface MenuDAO {
     List<MenuDTO> selectAllMenu();
+    MenuDTO selectOneMenu(MenuDTO menuDTO);
 
     int regist(MenuDTO menuDTO);
 
@@ -15,4 +16,6 @@ public interface MenuDAO {
 
     int delete(MenuDTO menuDTO);
 
+
+    List<MenuDTO> selectAllName();
 }
