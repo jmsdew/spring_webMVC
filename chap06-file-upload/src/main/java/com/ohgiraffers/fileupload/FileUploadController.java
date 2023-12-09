@@ -1,5 +1,7 @@
 package com.ohgiraffers.fileupload;
 
+import jakarta.annotation.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,22 +19,27 @@ import java.util.UUID;
 
 public class FileUploadController {
 
+    @Resource
+    private ResourceLoader resourceLoader;
+
+
     @RequestMapping(value = {"/","/main"})
     public String index(){
         return "main";
     }
 
-    @PostMapping("single-file")
-    public String singleFileUpload(@RequestParam MultipartFile singleFile, String singleFileDescription, Model model){
+    @PostMapping("single-file") // 파일 등록 로직은 보통 서비스에서 함
+    public String singleFileUpload(@RequestParam MultipartFile singleFile, String singleFileDescription, Model model) throws IOException {
         System.out.println("single file : " + singleFile);
         System.out.println("원본파일이름" + singleFile.getOriginalFilename());         
         System.out.println("input name 이름" + singleFile.getName());
-      //  System.out.println("원본파일객체" + singleFile.getBytes());     // 컴퓨터가 인식하고 있는 실제 주소값
+      //  System.out.println("원본파일객체" + singleFile.getBytes());     // 컴퓨터가 인식하고 있는 실제 주소값      
         System.out.println("원본파일사이즈" + singleFile.getSize());    // 파일 크기. 사이즈가 클 수록 서버에 부하가 걸림 ( 최대사이즈 지정해서 많이 씀)
 
         // 파일을 저장할 경로 설정    // 실제로는 따로 이미지서버를 이용해서 배포하는 형식으로 FTP서버(파일서버),NODE.js(자바스크립트서버) 등등
-        String root = "c:/upload-files";
-        String filePath = root + "/single";
+/*        String root = "c:/upload-files";
+        String filePath = root + "/single";*/
+        String filePath = resourceLoader.getResource("classpath:/static/img/").getFile().getAbsolutePath();
 
         File dir = new File(filePath);
         System.out.println(dir.getAbsolutePath());
@@ -51,6 +58,7 @@ public class FileUploadController {
             System.out.println("filePath =========================" + filePath);
             singleFile.transferTo(new File(filePath + "/" + savedName));
             model.addAttribute("message", "파일 업로드 성공");
+            model.addAttribute("img","static/img/" + savedName);
         }catch (IOException e){
             e.printStackTrace();
             model.addAttribute("message" , "파일 업로드 실패");
