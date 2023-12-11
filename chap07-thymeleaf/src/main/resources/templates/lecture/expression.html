@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!--
+    xmlns:th
+     : 타임리프의 th 속성을 사용하기 위한 네임스페이스로 html 태그의 속성으로 작성한다.
+     (th 문법을 사용하지 않는 일반적은 html 페이지는 선언하지 않아도 된다.)
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}" />
+</head>
+<body>
+    <h1>표현식</h1>
+    <h2>주석</h2>
+<!--
+    주석의 종류
+    parser-level 주석
+     : parser-level 주석은 정적인 페이지에서는 주석으로 있다가 thymeleaf 가 처리될 때 제거되어 클라이언트에게 노출되지 않는다는
+     장점이 있다.
+    prototype-only 주석
+     : prototype-only 주석은 정적인 페이지에서 주석으로 있다가 thymeleaf 처리 후에는 화면에 보여지지 않는 주석
+-->
+    <ul>
+        <li>parser-level 주석</li>
+        <!--/* 주석 내용 */-->
+        <li>prototype-only 주석</li>
+        <!--/*/ 주석 내용 /*/-->
+        <li>일반 html 주석</li>
+        <!-- 주석 내용-->
+    </ul>
+
+    <h2> 표현식1 - 변수 표현식 ${....} </h2>
+<!--
+    제공되는 표현식 종류
+    변수 표현식(Variable Expression) : ${...}
+-->
+</body>
+</html>

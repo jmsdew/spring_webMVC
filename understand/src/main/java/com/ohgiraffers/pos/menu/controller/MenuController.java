@@ -3,22 +3,28 @@ package com.ohgiraffers.pos.menu.controller;
 import com.ohgiraffers.pos.menu.dto.MenuDTO;
 import com.ohgiraffers.pos.menu.exception.NotInsertNameException;
 import com.ohgiraffers.pos.menu.service.MenuService;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @Controller
 @RequestMapping("/menus/*")
 @SessionAttributes("id")
-public class MenuController {
+public class MenuController extends HttpServlet {
 
     @Autowired
     private MenuService menuService;
+
+    HttpSession session;
 
     @GetMapping("menus")   /*select 진행순서 2번 -- service로 보냄 */
     public ModelAndView selectAllMenu(ModelAndView mv){
@@ -32,11 +38,21 @@ public class MenuController {
 
         return mv;  // 보냄
     }
-
-
     @PostMapping("login")
-    public String login(){
+    public String login(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        req.setCharacterEncoding("UTF-8");
+        String id = req.getParameter("id");
+        String pwd = req.getParameter("pwd");
+        session = req.getSession();
+        session.setMaxInactiveInterval(60*3);
+        session.setAttribute("id",id);
+        session.setAttribute("pwd",pwd);
         return "menucontrol";
+    }
+    @GetMapping("logout")
+    public String logout(HttpServletRequest req, HttpServletResponse resp){
+        session.invalidate();
+        return "menus/logout";
     }
 
     @GetMapping("onemenu")
