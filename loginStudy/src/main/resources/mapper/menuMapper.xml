@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.login.model.MenuDAO">
+
+    <resultMap id="menuResult" type="com.example.login.dto.MenuDTO">
+        <id property="code" column="MENU_CODE"/>
+        <result property="name" column="MENU_NAME"/>
+        <result property="price" column="MENU_PRICE"/>
+        <result property="categoryCode" column="CATEGORY_CODE"/>
+        <result property="status" column="ORDERABLE_STATUS"/>
+    </resultMap>
+
+    <select id="selectAllMenu" resultMap="menuResult">
+        SELECT
+        *
+        FROM TBL_MENU
+        WHERE ORDERABLE_STATUS='Y'
+    </select>
+
+</mapper>
