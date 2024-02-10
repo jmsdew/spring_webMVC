@@ -3,14 +3,6 @@ package com.ohgiraffers.pos.menu.controller;
 import com.ohgiraffers.pos.menu.dto.MenuDTO;
 import com.ohgiraffers.pos.menu.exception.NotInsertNameException;
 import com.ohgiraffers.pos.menu.service.MenuService;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
