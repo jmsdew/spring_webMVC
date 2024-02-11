@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
-@RequestMapping("/main")
+@RequestMapping("/main/*")
 public class MainController {
 
     @Autowired
@@ -22,7 +22,8 @@ public class MainController {
     @GetMapping("/main")
     public ModelAndView mainPage(ModelAndView mv){
 
-        List<MainDTO> findMenu = mainService.findMenu();
+        //  List<MainDTO> findMenu = mainService.findMenu();
+        mv.setViewName("/main/main");
         return mv;
     }
 

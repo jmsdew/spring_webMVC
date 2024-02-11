@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/menutestdb
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: minsik
+    password: minsik
+
+mybatis:
+  mapper-locations: classpath:resource/mapper/*.xml
+  config-location: classpath:mapper/mapper-config.xml

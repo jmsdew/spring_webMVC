@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.studycrud.dao.MainDAO">
+
+    <resultMap id="menuResult" type="com.example.studycrud.dto.MainDTO">
+        <id property="menu_code" column="menuCode"/>
+        <result property="menu_name" column="menuName"/>
+        <result property="menu_text" column="menuText"/>
+    </resultMap>
+
+    <select id="userSchool" resultMap="menuResult">
+        SELECT
+            menu_code,
+            menu_name,
+            menu_text
+          from tbl_menu
+    </select>
+</mapper>
