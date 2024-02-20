@@ -20,11 +20,10 @@ public class MainController {
 
 
     @GetMapping("/main")
-    public ModelAndView mainPage(ModelAndView mv){
+    public String mainPage(){
 
         //  List<MainDTO> findMenu = mainService.findMenu();
-        mv.setViewName("/main/main");
-        return mv;
+        return "/main/main";
     }
 
 }
